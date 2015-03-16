@@ -17,4 +17,7 @@ pollutantmean <- function(directory, pollutant, id = 1:332) {
   for (afile in thefiles) {
     chosenData <- rbind(chosenData, read.csv(afile))
   }
-}
+  
+  isGood <- !is.na(chosenData[,pollutant])
+  mean(chosenData[isGood, pollutant])
+  }
