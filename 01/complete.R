@@ -12,4 +12,16 @@ complete <- function(directory, id = 1:332) {
         ## ...
         ## where 'id' is the monitor ID number and 'nobs' is the
         ## number of complete cases
+    theFiles <- list.files(directory, pattern="*.csv",full.names=TRUE)[id]
+    theData <- data.frame()
+    for (afile in theFiles) {
+      theData <- rbind(theData, read.csv(afile))
+    }
+    good <- theData[complete.cases(theData),]
+    theNobs <- data.frame("id" = numeric(length(id)), "nobs" = numeric(length(id)))
+      for (x in 1:length(id)) {
+        theNobs$id[x] <- id[x]
+        theNobs$nobs[x] <- nrow(good[which(good$ID==id[x]),])
+      }
+    theNobs
 }
